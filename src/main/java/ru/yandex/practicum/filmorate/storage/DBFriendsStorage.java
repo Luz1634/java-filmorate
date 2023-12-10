@@ -36,7 +36,7 @@ public class DBFriendsStorage {
     }
 
     public void deleteFriends(int userId) {
-        String sqlQuery = "DELETE FROM friends WHERE user_id = ?;";
-        jdbcTemplate.update(sqlQuery, userId);
+        String sqlQuery = "DELETE FROM friends WHERE user_id = ? OR friend_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId, userId);
     }
 }

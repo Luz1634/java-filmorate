@@ -1,15 +1,16 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-import ru.yandex.practicum.filmorate.validation.DateNonBefore;
 import ru.yandex.practicum.filmorate.validation.CorrectGenresId;
 import ru.yandex.practicum.filmorate.validation.CorrectMpaId;
+import ru.yandex.practicum.filmorate.validation.DateNonBefore;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -28,6 +29,7 @@ public class Film {
     @CorrectMpaId
     private Mpa mpa;
     @CorrectGenresId
-    private Set<Genre> genres;
-    private Set<Integer> userLikes;
+    private Set<Genre> genres = new HashSet<>();
+    private Set<Integer> userLikes = new HashSet<>();
+    private Set<Director> directors = new HashSet<>();
 }

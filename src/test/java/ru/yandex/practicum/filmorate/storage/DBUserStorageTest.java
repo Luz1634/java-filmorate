@@ -171,9 +171,10 @@ public class DBUserStorageTest {
 
     @Test
     public void deleteExistUser() {
-        userStorage.addUser(standardUser());
+        User user = standardUser();
+        userStorage.addUser(user);
 
-        Assertions.assertEquals(standardUser(), userStorage.deleteUser(1),
+        Assertions.assertEquals(user, userStorage.deleteUser(1),
                 "Пользователь неправильно удаляется");
     }
 

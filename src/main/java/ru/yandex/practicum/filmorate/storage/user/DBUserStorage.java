@@ -88,8 +88,21 @@ public class DBUserStorage implements UserStorage {
     @Override
     public User deleteUser(int userId) {
         User user = checkContainsUser(userId);
-        String sqlQuery = "DELETE FROM users WHERE user_id = ?;";
+        user.setFriends(new HashSet<>(jdbcTemplate.query("SELECT friend_id FROM friends WHERE user_id = ?;",
+                (resultSet, rowNum) -> resultSet.getInt("friend_id"),
+                userId)));
 
+        String sqlQuery = "DELETE FROM friends WHERE user_id = ? OR friend_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId, userId);
+        sqlQuery = "DELETE FROM feed WHERE user_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId);
+        sqlQuery = "DELETE FROM likes WHERE user_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId);
+        sqlQuery = "DELETE FROM review_user_likes WHERE user_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId);
+        sqlQuery = "DELETE FROM reviews WHERE user_id = ?;";
+        jdbcTemplate.update(sqlQuery, userId);
+        sqlQuery = "DELETE FROM users WHERE user_id = ?;";
         jdbcTemplate.update(sqlQuery, userId);
 
         return user;

@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Event;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
@@ -68,5 +70,23 @@ public class UserController {
     public ResponseEntity<User> deleteFriend(@PathVariable("id") int userId, @PathVariable int friendId) {
         log.info("Получен DELETE запрос на удаление из друзей");
         return ResponseEntity.ok(userService.deleteFriend(userId, friendId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
+        log.info("Запрос на удаление пользователя с id = {}", id);
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    @GetMapping("/{id}/recommendations")
+    public ResponseEntity<List<Film>> getRecommendations(@PathVariable("id") int userId) {
+        log.info("Получен GET запрос на получение рекомендации по фильмам для просмотра");
+        return ResponseEntity.ok(userService.getRecommendations(userId));
+    }
+
+    @GetMapping("/{id}/feed")
+    public ResponseEntity<List<Event>> getFeed(@PathVariable("id") int userID) {
+        log.info("Получен GET запрос на получение ленты событий");
+        return ResponseEntity.ok(userService.getAllFeedByUserId(userID));
     }
 }

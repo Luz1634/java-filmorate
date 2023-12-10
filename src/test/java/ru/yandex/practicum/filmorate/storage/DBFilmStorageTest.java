@@ -14,7 +14,6 @@ import ru.yandex.practicum.filmorate.storage.film.DBFilmStorage;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.HashSet;
 
 @JdbcTest
 public class DBFilmStorageTest {
@@ -41,8 +40,6 @@ public class DBFilmStorageTest {
         film.setReleaseDate(LocalDate.of(year, month, day));
         film.setDuration(duration);
         film.setMpa(mpa);
-        film.setGenres(new HashSet<>());
-        film.setUserLikes(new HashSet<>());
         return film;
     }
 
@@ -54,14 +51,11 @@ public class DBFilmStorageTest {
                 1,
                 1,
                 100,
-                new Mpa(1, ""));
+                new Mpa(1, "G"));
     }
 
     public Film standardGetFilm() {
-        Film film = standardFilm();
-        film.setGenres(null);
-        film.setUserLikes(null);
-        return film;
+        return standardFilm();
     }
 
     public void fillFilms() {
@@ -102,7 +96,9 @@ public class DBFilmStorageTest {
 
     @Test
     public void addFirstFilm() {
-        Assertions.assertEquals(standardFilm(), filmStorage.addFilm(standardFilm()),
+        Film film = standardFilm();
+        film.setDirectors(null);
+        Assertions.assertEquals(film, filmStorage.addFilm(film),
                 "Первый созданный фильм неправильно добавляется");
         Assertions.assertEquals(standardGetFilm(), filmStorage.getFilm(1),
                 "Первый созданный фильм неправильно добавляется");
@@ -118,8 +114,6 @@ public class DBFilmStorageTest {
                 "Новый фильм неправильно добавляется");
 
         film.setId(21);
-        film.setGenres(null);
-        film.setUserLikes(null);
 
         Assertions.assertEquals(film, filmStorage.getFilm(21),
                 "Новый фильм неправильно добавляется");

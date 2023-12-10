@@ -1,2 +1,4 @@
 # java-filmorate
-![База данный проекта](src/main/resources/PUBLIC.png)
+https://dbdiagram.io/d/6564cf643be1495787d3f35a
+
+![](src/main/resources/DB.png)
